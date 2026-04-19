@@ -4,10 +4,9 @@
 }
 
 :root {
-  --color-background: var(--ev-c-black);
-  --color-text: var(--ev-c-white);
+  --color-background: var(--ev-c-white);
+  --color-text: var(--ev-c-black);
 }
-
 
 ul {
   list-style: none;

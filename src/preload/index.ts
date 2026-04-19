@@ -1,9 +1,13 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer, webUtils } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
-const api = {}
-
+const api = {
+  ping: () => ipcRenderer.invoke('ping'),
+  mkdir: (path: string) => ipcRenderer.invoke('mkdir', path),
+  getPathForFile: (file: File) => webUtils.getPathForFile(file),
+  intakeFilePaths: (paths: string[]) => ipcRenderer.invoke('intakeFilePaths', paths)
+}
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.
