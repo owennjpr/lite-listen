@@ -9,5 +9,6 @@ export type ImageFormat = (typeof IMAGE_FORMATS)[number]
 export enum FileKinds {
   AUDIO = 'audio',
   IMAGE = 'image',
+  DIRECTORY = 'directory',
   OTHER = 'other'
 }

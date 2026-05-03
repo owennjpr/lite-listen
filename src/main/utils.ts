@@ -1,21 +1,29 @@
 import { AUDIO_FORMATS, AudioFormat, FileKinds, IMAGE_FORMATS, ImageFormat } from '../lib/types'
 
-export const isAudioFile = (ext: string): boolean => {
+export const isAudioFile = (ext: string | null): boolean => {
   return AUDIO_FORMATS.includes(ext as AudioFormat)
 }
 
-export const isImageFile = (ext: string): boolean => {
+export const isImageFile = (ext: string | null): boolean => {
   return IMAGE_FORMATS.includes(ext as ImageFormat)
 }
 
-export const ParseFileKind = (path: string): { kind: FileKinds; ext: string } => {
-  const ext = path.split('.').at(-1)?.toLowerCase() ?? ''
+export const ParseFileKind = (
+  path: string
+): { name: string; kind: FileKinds; ext: string | null } => {
+  const fileName = path.split('/').at(-1) ?? ''
+  const nameOnly = fileName.split('.')[0]
 
-  if (isAudioFile(ext)) {
-    return { kind: FileKinds.AUDIO, ext: ext }
+  const dotIndex = fileName.lastIndexOf('.')
+  const ext = dotIndex === -1 ? null : fileName.slice(dotIndex).toLowerCase()
+
+  let kind = FileKinds.OTHER
+  if (!ext) {
+    kind = FileKinds.DIRECTORY
+  } else if (isAudioFile(ext)) {
+    kind = FileKinds.AUDIO
   } else if (isImageFile(ext)) {
-    return { kind: FileKinds.IMAGE, ext: ext }
-  } else {
-    return { kind: FileKinds.OTHER, ext: ext }
+    kind = FileKinds.IMAGE
   }
+  return { name: nameOnly, kind: kind, ext: ext }
 }

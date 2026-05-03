@@ -8,10 +8,11 @@ const FileDrop = (): React.JSX.Element => {
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
     e.preventDefault()
   }
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>): void => {
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>): Promise<void> => {
     e.preventDefault()
     const paths = Array.from(e.dataTransfer.files).map((f: File) => api.getPathForFile(f))
-    api.intakeFilePaths(paths)
+    const FileTree = await api.intakeFilePaths(paths)
+    console.log(FileTree)
   }
   return (
     <div

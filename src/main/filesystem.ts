@@ -1,6 +1,8 @@
 import { app } from 'electron'
 import fs from 'node:fs/promises'
 import { ParseFileKind } from './utils'
+import { FileTreeNode } from '../lib/FileTreeNode'
+import { FileKinds } from '../lib/types'
 
 export const mkdir = async (path: string): Promise<string> => {
   const prefix = app.getPath('userData')
@@ -9,17 +11,35 @@ export const mkdir = async (path: string): Promise<string> => {
   return full_path
 }
 
-export const intakeFilePaths = async (paths: string[]): Promise<string> => {
-  const results: string[] = []
-  for (const p of paths) {
-    const stat = await fs.stat(p)
-    if (stat.isDirectory()) {
-      console.log('folder')
-    } else if (stat.isFile()) {
-      const { kind, ext } = ParseFileKind(p)
-      console.log(`path: ${p}, kind: ${kind}, ext: ${ext}`)
+export const intakeFilePathsRec = async (path: string): Promise<FileTreeNode> => {
+  const stat = await fs.stat(path)
+
+  // get fields
+  const { name, kind, ext } = ParseFileKind(path)
+  const children: FileTreeNode[] = []
+
+  // directories recurse
+  if (stat.isDirectory()) {
+    console.log('folder')
+    const dir = await fs.opendir(path)
+
+    for await (const entity of dir) {
+      const entPath = entity.parentPath + '/' + entity.name
+      const subTree = await intakeFilePathsRec(entPath)
+      children.push(subTree)
     }
   }
-  console.log(results)
-  return paths.reduce((prev, curr, ind) => prev + curr + ' ' + ind)
+  return new FileTreeNode(name, kind, ext, children)
+}
+
+export const intakeFilePaths = async (paths: string[]): Promise<FileTreeNode> => {
+  console.log('intakeFilePaths')
+  const children: FileTreeNode[] = []
+  for (const p of paths) {
+    console.log('p' + p)
+    const subTree = await intakeFilePathsRec(p)
+    children.push(subTree)
+  }
+
+  return new FileTreeNode('root', FileKinds.DIRECTORY, null, children)
 }

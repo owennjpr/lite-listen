@@ -43,9 +43,3 @@ export interface Playlist {
   updatedAt: number
   trackIds: string[]
 }
-
-export interface FileTreeNode {
-  name: string
-  format: string
-  children: FileTreeNode[]
-}
