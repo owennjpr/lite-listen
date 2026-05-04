@@ -13,10 +13,9 @@ ul {
 }
 
 body {
-  min-height: 100vh;
   color: var(--color-text);
   line-height: 1.6;
-  background: rgba(255, 255, 255, 1);
+  background: #f0f0f0;
   font-family:
     Inter,
     -apple-system,

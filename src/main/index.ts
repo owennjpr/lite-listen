@@ -9,10 +9,10 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    titleBarStyle: 'hiddenInset',
+    titleBarStyle: 'default',
     vibrancy: 'under-window',
     visualEffectState: 'active',
-    transparent: true,
+    //transparent: true,
     backgroundColor: '#00000000',
     show: false,
     autoHideMenuBar: true,
