@@ -43,3 +43,7 @@ export const intakeFilePaths = async (paths: string[]): Promise<FileTreeNode> =>
 
   return new FileTreeNode('root', FileKinds.DIRECTORY, null, children)
 }
+
+export const indexFileTree = async (tree: FileTreeNode): Promise<void> => {
+  console.log('indexFileTree: ' + tree)
+}

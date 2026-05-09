@@ -24,6 +24,8 @@ const FileDropOverlay = (): React.JSX.Element => {
   }
 
   const handleComplete = async (): Promise<void> => {
+    if (state.status !== 'processed') return
+    await api.indexFileTree(state.fileTree)
     dispatch({ type: 'COMPLETE' })
   }
 
@@ -46,7 +48,7 @@ const FileDropOverlay = (): React.JSX.Element => {
           )}
           {state.status === 'processing' && <p>Processing Files...</p>}
           {state.status === 'processed' && (
-            <div>
+            <div className="overflow-scroll">
               {FileTreeNode.toReactNode(state.fileTree)}
               <button onClick={handleComplete} className="cursor-pointer bg-red-300">
                 submit
