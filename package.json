@@ -26,7 +26,8 @@
     "electron-updater": "^6.3.9",
     "lucide-react": "^1.14.0",
     "motion": "^12.38.0",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.2",
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",

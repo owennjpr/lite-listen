@@ -17,6 +17,7 @@ export const ParseFileKind = (
   const dotIndex = fileName.lastIndexOf('.')
   const ext = dotIndex === -1 ? null : fileName.slice(dotIndex).toLowerCase()
 
+  console.log('ext: ' + ext)
   let kind = FileKinds.OTHER
   if (!ext) {
     kind = FileKinds.DIRECTORY
