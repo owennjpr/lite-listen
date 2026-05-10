@@ -1,6 +1,5 @@
 import { contextBridge, ipcRenderer, webUtils } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { FileTreeNode } from '../lib/FileTreeNode'
 
 // Custom APIs for renderer
 const api = {
@@ -8,7 +7,7 @@ const api = {
   mkdir: (path: string) => ipcRenderer.invoke('mkdir', path),
   getPathForFile: (file: File) => webUtils.getPathForFile(file),
   intakeFilePaths: (paths: string[]) => ipcRenderer.invoke('intakeFilePaths', paths),
-  indexFileTree: (tree: FileTreeNode) => ipcRenderer.invoke('indexFileTree', tree)
+  indexFileTree: () => ipcRenderer.invoke('indexFileTree')
 }
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

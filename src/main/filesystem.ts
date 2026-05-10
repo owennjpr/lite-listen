@@ -3,6 +3,7 @@ import fs from 'node:fs/promises'
 import { ParseFileKind } from './utils'
 import { FileTreeNode } from '../lib/FileTreeNode'
 import { FileKinds } from '../lib/types'
+import { clearPendingScan, getPendingScan, storePendingScan } from './scanner'
 
 export const mkdir = async (path: string): Promise<string> => {
   const prefix = app.getPath('userData')
@@ -40,10 +41,18 @@ export const intakeFilePaths = async (paths: string[]): Promise<FileTreeNode> =>
     const subTree = await intakeFilePathsRec(p)
     children.push(subTree)
   }
-
-  return new FileTreeNode('root', FileKinds.DIRECTORY, null, children)
+  const scan = new FileTreeNode('root', FileKinds.DIRECTORY, null, children)
+  storePendingScan(scan)
+  return scan
 }
 
-export const indexFileTree = async (tree: FileTreeNode): Promise<void> => {
+export const clearFileTree = async (): Promise<void> => {
+  clearPendingScan()
+}
+
+export const indexFileTree = async (): Promise<boolean> => {
+  const tree = getPendingScan()
+  if (!tree) return false
   console.log('indexFileTree: ' + tree)
+  return true
 }

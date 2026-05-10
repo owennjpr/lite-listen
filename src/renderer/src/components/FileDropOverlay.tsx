@@ -4,14 +4,15 @@ import { useApi } from '@renderer/api'
 import AddButton from './AddButton'
 import FileDropModal from './FileDropModal'
 import { FolderUp } from 'lucide-react'
-import { useReducer } from 'react'
+import { useReducer, useState } from 'react'
 import { FileTreeNode } from '@lib/FileTreeNode'
 import { fileDropReducer } from './FileDropReducer'
+import FileTreeNodeView from './FileTreeNodeView'
 
 const FileDropOverlay = (): React.JSX.Element => {
   const api = useApi()
   const [state, dispatch] = useReducer(fileDropReducer, { status: 'closed' })
-
+  const [indexed, setIndexed] = useState<boolean>(false)
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
     e.preventDefault()
   }
@@ -25,12 +26,14 @@ const FileDropOverlay = (): React.JSX.Element => {
 
   const handleComplete = async (): Promise<void> => {
     if (state.status !== 'processed') return
-    await api.indexFileTree(state.fileTree)
+    const success = await api.indexFileTree(state.fileTree)
+    setIndexed(success)
     dispatch({ type: 'COMPLETE' })
   }
 
   // handle the button click to toggle the modal on and off
   const handleToggle = (): void => {
+    if (state.status !== 'closed') api.clearFileTree()
     dispatch({ type: state.status == 'closed' ? 'OPEN' : 'CLOSE' })
   }
 
@@ -49,13 +52,13 @@ const FileDropOverlay = (): React.JSX.Element => {
           {state.status === 'processing' && <p>Processing Files...</p>}
           {state.status === 'processed' && (
             <div className="overflow-scroll">
-              {FileTreeNode.toReactNode(state.fileTree)}
+              <FileTreeNodeView tree={state.fileTree} />
               <button onClick={handleComplete} className="cursor-pointer bg-red-300">
                 submit
               </button>
             </div>
           )}
-          {state.status === 'complete' && <div>done</div>}
+          {state.status === 'complete' && <div>{indexed ? 'complete' : 'an error occurred'}</div>}
         </FileDropModal>
       )}
       <div className="absolute z-20 right-8 bottom-8">

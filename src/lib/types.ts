@@ -7,8 +7,8 @@ export const IMAGE_FORMATS = ['.png', '.jpg', '.jpeg'] as const
 export type ImageFormat = (typeof IMAGE_FORMATS)[number]
 
 export enum FileKinds {
-  AUDIO = 'audio',
-  IMAGE = 'image',
-  DIRECTORY = 'directory',
-  OTHER = 'other'
+  AUDIO = 0,
+  IMAGE = 1,
+  DIRECTORY = 2,
+  OTHER = 3
 }

@@ -5,7 +5,8 @@ export type Api = {
   mkdir: (path: string) => Promise<string>
   getPathForFile: (file: File) => string // sync
   intakeFilePaths: (paths: string[]) => Promise<string>
-  indexFileTree: (tree: FileTreeNode) => Promise<void>
+  clearFileTree: () => Promise<string>
+  indexFileTree: (tree: FileTreeNode) => Promise<boolean>
 }
 export const useApi = (): Api => {
   return window.api as unknown as Api
