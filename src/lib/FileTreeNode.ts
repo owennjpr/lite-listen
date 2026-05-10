@@ -19,7 +19,6 @@ export class FileTreeNode {
 
   static fromJSON(json: unknown): FileTreeNode {
     const node = json as { name: string; kind: string; format: string; children?: unknown[] }
-    console.log(`kind: ${node.kind} format: ${node.format}`)
     return new FileTreeNode(
       node.name,
       +node.kind as FileKinds,

@@ -1,11 +1,15 @@
-import DevButtons from './components/DevButtons'
-import FileDropOverlay from './components/FileDropOverlay'
+import { useNavigationStore } from './stores/navigationStore'
+import Add from './pages/Add'
+import Home from './pages/Home'
+import AddButton from './components/AddButton'
 function App(): React.JSX.Element {
+  const page = useNavigationStore((s) => s.page)
   return (
-    <div className="relative w-full h-full">
-      <DevButtons />
-      <FileDropOverlay />
-    </div>
+    <>
+      {page === 'home' && <Home />}
+      {page === 'add' && <Add />}
+      <AddButton />
+    </>
   )
 }
 export default App

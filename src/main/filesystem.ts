@@ -21,7 +21,6 @@ export const intakeFilePathsRec = async (path: string): Promise<FileTreeNode> =>
 
   // directories recurse
   if (stat.isDirectory()) {
-    console.log('folder')
     const dir = await fs.opendir(path)
 
     for await (const entity of dir) {
@@ -34,10 +33,8 @@ export const intakeFilePathsRec = async (path: string): Promise<FileTreeNode> =>
 }
 
 export const intakeFilePaths = async (paths: string[]): Promise<FileTreeNode> => {
-  console.log('intakeFilePaths')
   const children: FileTreeNode[] = []
   for (const p of paths) {
-    console.log('p' + p)
     const subTree = await intakeFilePathsRec(p)
     children.push(subTree)
   }
@@ -46,7 +43,7 @@ export const intakeFilePaths = async (paths: string[]): Promise<FileTreeNode> =>
   return scan
 }
 
-export const clearFileTree = async (): Promise<void> => {
+export const clearFileTree = (): void => {
   clearPendingScan()
 }
 

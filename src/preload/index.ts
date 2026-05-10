@@ -7,6 +7,7 @@ const api = {
   mkdir: (path: string) => ipcRenderer.invoke('mkdir', path),
   getPathForFile: (file: File) => webUtils.getPathForFile(file),
   intakeFilePaths: (paths: string[]) => ipcRenderer.invoke('intakeFilePaths', paths),
+  clearFileTree: () => ipcRenderer.invoke('clearFileTree'),
   indexFileTree: () => ipcRenderer.invoke('indexFileTree')
 }
 // Use `contextBridge` APIs to expose Electron APIs to

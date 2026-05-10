@@ -32,7 +32,7 @@ const FileTreeNodeView = (props: FileTreeNodeViewProps): ReactNode => {
           <span className="text-gray-600 text-xs">{tree.format}</span>
         </p>
       </div>
-      <div className="" style={{ marginLeft: '8px' }}>
+      <div className="" style={{ marginLeft: '16px' }}>
         {tree.children
           .sort((a, b) => a.kind - b.kind)
           .map((c, i) => (
