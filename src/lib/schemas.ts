@@ -4,6 +4,7 @@ export interface Track {
   path: string
   title: string
   duration: number
+  sampleRate: number
   releaseDate: string
   coverPath: string | null
   createdAt: number

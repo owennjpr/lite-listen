@@ -28,8 +28,8 @@ const FileTreeNodeView = (props: FileTreeNodeViewProps): ReactNode => {
       >
         {icon}
         <p>
-          <span className="font-bold text-xs">{tree.name}</span>
-          <span className="text-gray-600 text-xs">{tree.format}</span>
+          <span className="text-xs">{tree.name}</span>
+          <span className="text-gray-400 text-xs">{tree.format}</span>
         </p>
       </div>
       <div className="" style={{ marginLeft: '16px' }}>

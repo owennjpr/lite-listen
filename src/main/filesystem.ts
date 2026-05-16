@@ -12,6 +12,19 @@ export const mkdir = async (path: string): Promise<string> => {
   return full_path
 }
 
+export const writeFile = async (path: string, data: string): Promise<boolean> => {
+  try {
+    const prefix = app.getPath('userData')
+    const full_path = prefix + path
+    //console.log(full_path)
+    await fs.writeFile(full_path, data)
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+
 export const intakeFilePathsRec = async (path: string): Promise<FileTreeNode> => {
   const stat = await fs.stat(path)
 
@@ -29,7 +42,7 @@ export const intakeFilePathsRec = async (path: string): Promise<FileTreeNode> =>
       children.push(subTree)
     }
   }
-  return new FileTreeNode(name, kind, ext, children)
+  return new FileTreeNode(name, kind, ext, children, path)
 }
 
 export const intakeFilePaths = async (paths: string[]): Promise<FileTreeNode> => {
@@ -38,18 +51,44 @@ export const intakeFilePaths = async (paths: string[]): Promise<FileTreeNode> =>
     const subTree = await intakeFilePathsRec(p)
     children.push(subTree)
   }
-  const scan = new FileTreeNode('root', FileKinds.DIRECTORY, null, children)
+  const scan = new FileTreeNode('new files:', FileKinds.DIRECTORY, null, children)
   storePendingScan(scan)
-  return scan
+  FileTreeNode.print(scan)
+  const cleaned = FileTreeNode.cleanPaths(scan)
+  return cleaned
 }
 
 export const clearFileTree = (): void => {
   clearPendingScan()
 }
 
+export const indexFileTreeRec = async (tree: FileTreeNode | null): Promise<boolean> => {
+  if (tree === null) return true
+
+  switch (tree.kind) {
+    case FileKinds.AUDIO:
+      writeFile(`/index/tracks/${tree.name}.json`, 'test')
+      break
+    case FileKinds.IMAGE:
+      writeFile(`/index/covers/${tree.name}.json`, 'test')
+      break
+    case FileKinds.DIRECTORY:
+      if (tree.children) {
+        tree.children.map(indexFileTreeRec)
+      }
+      break
+    default:
+      break
+  }
+  return true
+}
+
 export const indexFileTree = async (): Promise<boolean> => {
   const tree = getPendingScan()
   if (!tree) return false
-  console.log('indexFileTree: ' + tree)
-  return true
+
+  await mkdir('/index/tracks')
+  await mkdir('/index/covers')
+
+  return indexFileTreeRec(tree)
 }
