@@ -1,8 +1,8 @@
 import { app } from 'electron'
 import fs from 'node:fs/promises'
-import { ParseFileKind } from './utils'
-import { FileTreeNode } from '../lib/FileTreeNode'
-import { FileKinds } from '../lib/types'
+import { ParseFileKind } from '../utils'
+import { FileTreeNode } from '../../lib/FileTreeNode'
+import { FileKinds } from '../../lib/types'
 import { clearPendingScan, getPendingScan, storePendingScan } from './scanner'
 
 export const mkdir = async (path: string): Promise<string> => {

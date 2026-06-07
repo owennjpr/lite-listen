@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron'
-import { mkdir, intakeFilePaths, indexFileTree, clearFileTree } from './filesystem'
+import { mkdir, intakeFilePaths, indexFileTree, clearFileTree } from './domain/filesystem'
 export const registerIpcHandlers = (): void => {
   ipcMain.handle('ping', () => 'pong')
   ipcMain.handle('mkdir', (_event, path: string) => mkdir(path))

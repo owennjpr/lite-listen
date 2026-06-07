@@ -1,4 +1,4 @@
-import { FileTreeNode } from '../lib/FileTreeNode'
+import { FileTreeNode } from '../../lib/FileTreeNode'
 
 let pendingScan: FileTreeNode | null = null
 
