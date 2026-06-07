@@ -1,11 +1,6 @@
-import { Playlist } from '../../lib/schemas'
+import { Playlist, PlaylistFilters } from '../../lib/schemas'
 import { getDb } from '../db'
 import { PlaylistRow, toPlaylist } from './mappers'
-
-interface PlaylistFilters {
-  id?: string
-  title?: string
-}
 
 export const getPlaylists = (filters: PlaylistFilters = {}): Playlist[] => {
   const db = getDb()

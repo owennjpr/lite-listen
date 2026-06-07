@@ -1,12 +1,6 @@
-import { Artist } from '../../lib/schemas'
+import { Artist, ArtistFilters } from '../../lib/schemas'
 import { getDb } from '../db'
 import { ArtistRow, toArtist } from './mappers'
-
-// crud.ts
-interface ArtistFilters {
-  id?: string
-  name?: string
-}
 
 export const getArtists = (filters: ArtistFilters = {}): Artist[] => {
   const db = getDb()

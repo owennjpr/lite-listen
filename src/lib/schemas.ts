@@ -1,3 +1,7 @@
+// PRIMARY ENTITIES
+// PRIMARY ENTITIES
+// PRIMARY ENTITIES
+
 export interface Track {
   // Core
   id: string
@@ -9,7 +13,7 @@ export interface Track {
   coverPath: string | null
   createdAt: number
   // Album
-  albumId: string
+  albumId: string | null
   trackNumber: number
   // Artist
   artistIds: string[]
@@ -43,4 +47,27 @@ export interface Playlist {
   createdAt: number
   updatedAt: number
   trackIds: string[]
+}
+
+// FILTERS
+export interface TrackFilters {
+  id?: string
+  title?: string
+  albumId?: string
+}
+
+export interface AlbumFilters {
+  id?: string
+  title?: string
+  artistId?: string
+}
+
+export interface ArtistFilters {
+  id?: string
+  name?: string
+}
+
+export interface PlaylistFilters {
+  id?: string
+  title?: string
 }

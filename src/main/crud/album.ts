@@ -1,12 +1,6 @@
-import { Album } from '../../lib/schemas'
+import { Album, AlbumFilters } from '../../lib/schemas'
 import { getDb } from '../db'
 import { AlbumRow, toAlbum } from './mappers'
-
-interface AlbumFilters {
-  id?: string
-  title?: string
-  artistId?: string
-}
 
 export const getAlbums = (filters: AlbumFilters = {}): Album[] => {
   const db = getDb()

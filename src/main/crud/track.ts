@@ -1,12 +1,6 @@
-import { Track } from '../../lib/schemas'
+import { Track, TrackFilters } from '../../lib/schemas'
 import { getDb } from '../db'
 import { toTrack, TrackRow } from './mappers'
-
-interface TrackFilters {
-  id?: string
-  title?: string
-  albumId?: string
-}
 
 export const getTracks = (filters: TrackFilters): Track[] => {
   const db = getDb()
